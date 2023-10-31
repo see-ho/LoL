@@ -9,14 +9,14 @@ import androidx.viewbinding.ViewBinding
 
 abstract class BaseActivity<VB: ViewBinding>(
     private val inflate: (LayoutInflater) -> VB,
-    private val TAG: String
 ) : AppCompatActivity(){
 
     private var _binding: VB? = null
     val binding get() = _binding!!
 
+    val name = javaClass.simpleName
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.e(TAG, "onCreate", )
+        Log.e(name, "onCreate", )
         super.onCreate(savedInstanceState)
         _binding = inflate(layoutInflater)
         setContentView(binding.root)
@@ -27,32 +27,32 @@ abstract class BaseActivity<VB: ViewBinding>(
     }
 
     override fun onStart() {
-        Log.e(TAG, "onStart", )
+        Log.e(name, "onStart", )
         super.onStart()
     }
 
     override fun onResume() {
-        Log.e(TAG, "onResume", )
+        Log.e(name, "onResume", )
         super.onResume()
     }
 
     override fun onPause() {
-        Log.e(TAG, "onPause", )
+        Log.e(name, "onPause", )
         super.onPause()
     }
 
     override fun onRestart() {
-        Log.e(TAG, "onRestart", )
+        Log.e(name, "onRestart", )
         super.onRestart()
     }
 
     override fun onStop() {
-        Log.e(TAG, "onStop", )
+        Log.e(name, "onStop", )
         super.onStop()
     }
 
     override fun onDestroy() {
-        Log.e(TAG, "onDestroy", )
+        Log.e(name, "onDestroy", )
         super.onDestroy()
     }
 

@@ -9,10 +9,12 @@ import java.net.SocketException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
-abstract class BaseViewModel(val name: String) : ViewModel(){
+abstract class BaseViewModel() : ViewModel(){
     /*init {
         Log.e("TAG", "$name 생성", )
     }*/
+    val name = javaClass.simpleName
+
     protected val isLoading = MutableLiveData(false)
 
     private val job = SupervisorJob()

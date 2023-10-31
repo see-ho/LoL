@@ -2,20 +2,26 @@ package com.seeho.lolapplication.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.seeho.lolapplication.base.BaseActivity
 import com.seeho.lolapplication.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityMainBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+@AndroidEntryPoint
+class MainActivity : BaseActivity<ActivityMainBinding>(
+    {ActivityMainBinding.inflate(it)}
+) {
 
 
-
+    override fun initData() {
     }
 
+    override fun initUI() {
+        loge("시작!")
+    }
+
+    override fun initListener() {
+    }
+
+    override fun initObserver() {
+    }
 }

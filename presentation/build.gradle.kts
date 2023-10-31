@@ -77,6 +77,11 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:$room_version")
     kapt("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.6")
+    implementation("androidx.compose.runtime:runtime:1.3.3")
+    implementation("androidx.compose.runtime:runtime-livedata:1.3.3")
+    implementation("androidx.compose.runtime:runtime-rxjava2:1.3.3")
 }
 kapt {
     correctErrorTypes = true

@@ -5,17 +5,16 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/mainFragment">
     <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.seeho.lolapplication.MainFragment"
-        android:label="fragment_main"
-        tools:layout="@layout/fragment_main" >
-        <action
-            android:id="@+id/action_mainFragment_to_championDetailFragment"
-            app:destination="@id/championDetailFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/championDetailFragment"
         android:name="com.seeho.lolapplication.ui.fragment.ChampionDetailFragment"
         android:label="fragment_champion_detail"
         tools:layout="@layout/fragment_champion_detail" />
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.seeho.lolapplication.ui.fragment.MainFragment"
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_championDetailFragment"
+            app:destination="@id/championDetailFragment" />
+    </fragment>
 </navigation>
