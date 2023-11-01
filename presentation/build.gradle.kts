@@ -16,7 +16,7 @@ android {
     defaultConfig {
         applicationId = "com.seeho.lolapplication"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -42,6 +42,10 @@ android {
     buildFeatures{
         dataBinding = true
         viewBinding = true
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.4.0"
     }
 }
 
@@ -82,6 +86,19 @@ dependencies {
     implementation("androidx.compose.runtime:runtime:1.3.3")
     implementation("androidx.compose.runtime:runtime-livedata:1.3.3")
     implementation("androidx.compose.runtime:runtime-rxjava2:1.3.3")
+
+    implementation ("androidx.lifecycle:lifecycle-runtime-compose:2.6.0")
+
+    implementation(platform("androidx.compose:compose-bom:2023.01.00"))
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-graphics")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.material3:material3")
+
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    implementation("io.coil-kt:coil-compose:2.5.0")
 }
 kapt {
     correctErrorTypes = true

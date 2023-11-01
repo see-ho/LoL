@@ -9,7 +9,9 @@ import com.bumptech.glide.Glide
 import com.seeho.domain.model.DomainChampion
 import com.seeho.lolapplication.databinding.ItemChampionBinding
 
-class ChampionsAdapter(): RecyclerView.Adapter<ChampionsAdapter.ChampionsViewHolder>(){
+class ChampionsAdapter(
+    val onClick: (DomainChampion) -> Unit
+): RecyclerView.Adapter<ChampionsAdapter.ChampionsViewHolder>(){
     private var items: List<DomainChampion> = ArrayList()
 
     inner class ChampionsViewHolder(private val binding: ItemChampionBinding): RecyclerView.ViewHolder(binding.root){
@@ -19,6 +21,9 @@ class ChampionsAdapter(): RecyclerView.Adapter<ChampionsAdapter.ChampionsViewHol
                 Glide.with(ivImg)
                     .load("https://ddragon.leagueoflegends.com/cdn/13.20.1/img/champion/${item.id}.png")
                     .into(ivImg)
+                root.setOnClickListener {
+                    onClick(item)
+                }
             }
         }
     }

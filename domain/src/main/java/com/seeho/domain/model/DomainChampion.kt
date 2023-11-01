@@ -6,4 +6,5 @@ data class DomainChampion(
     val name: String,
     val title: String,
     val blurb: String,
+    //val skins: List<Skin>
 )

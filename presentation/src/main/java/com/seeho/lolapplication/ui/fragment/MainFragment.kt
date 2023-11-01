@@ -3,24 +3,26 @@ package com.seeho.lolapplication.ui.fragment
 import android.view.View
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.fragment.app.activityViewModels
 import com.seeho.lolapplication.base.BaseFragment
 import com.seeho.lolapplication.databinding.FragmentMainBinding
-import com.seeho.lolapplication.viewModel.MainFragmentViewModel
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.seeho.lolapplication.ui.adapter.ChampionsAdapter
 import com.seeho.lolapplication.uiState.ChampionsUiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-
+import com.seeho.lolapplication.R
+import com.seeho.lolapplication.viewModel.MainViewModel
 
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>(
     FragmentMainBinding::inflate
 ) {
-    private val viewModel: MainFragmentViewModel by viewModels()
+    private val viewModel: MainViewModel by activityViewModels()
     private lateinit var championsAdapter: ChampionsAdapter
     override fun initData() {
 //        viewModel.getChampions()
@@ -30,15 +32,17 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
         binding.apply {
             //text.text = "메인 프레그먼트"
             //loge("dkdkdkdkdkdkkd${viewModel.uiState.value.champions}")
-            championsAdapter = ChampionsAdapter()
+            championsAdapter = ChampionsAdapter{
+                viewModel.setChampion(it)
+                findNavController().navigate(R.id.action_mainFragment_to_championDetailFragment)
+            }
             //championsAdapter.setData(viewModel.uiState.value.champions)
             rvChampions.adapter = championsAdapter
-
         }
     }
 
     override fun initListener() {
-
+        
     }
 
     override fun initObserver() {
@@ -77,7 +81,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
         }
         lifecycleScope.launch {
             viewModel.errorFlow.collectLatest {
-                showShortToast(it.localizedMessage)
+                showLongToast(it.localizedMessage)
+                binding.loadingBar.visibility = View.INVISIBLE
             }
         }
 

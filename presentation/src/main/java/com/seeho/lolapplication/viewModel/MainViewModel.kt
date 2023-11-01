@@ -1,10 +1,13 @@
 package com.seeho.lolapplication.viewModel
 
+
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.seeho.data.remote.model.Champion
 import com.seeho.domain.Resource
 import com.seeho.domain.model.DomainChampion
 import com.seeho.domain.useCase.GetChampionUseCase
@@ -30,11 +33,19 @@ import kotlinx.coroutines.flow.onEach
 
 
 @HiltViewModel
-class MainFragmentViewModel @Inject constructor(
+class MainViewModel @Inject constructor(
     private val getChampionUseCase: GetChampionUseCase
 ): ViewModel() {
 
-//      ver 1. 성-공??
+    private var _champion : MutableLiveData<DomainChampion> = MutableLiveData()
+    val champion : LiveData<DomainChampion>
+        get() = _champion
+
+    fun setChampion(it: DomainChampion){
+        _champion.value = it
+    }
+
+    //      ver 1. 성-공??
     private val _errorFlow = MutableSharedFlow<Throwable>()
     val errorFlow: SharedFlow<Throwable> get() = _errorFlow
 
@@ -43,13 +54,28 @@ class MainFragmentViewModel @Inject constructor(
             val champions = getChampionUseCase()
             val uiState = ChampionsUiState.Champions(champions)
             emit(uiState)
-            }
+        }
             .catch { throwable -> _errorFlow.emit(throwable) }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
                 initialValue = ChampionsUiState.Loading,
             )
+
+    fun getChampions(){
+        viewModelScope.launch {
+            uiState.collect{ state->
+                when(state){
+                    is ChampionsUiState.Loading -> {  }
+                    is ChampionsUiState.Champions -> {
+                        Log.e("겟챰피온", "getChampions: ${state.champions}", )
+                    }
+
+                    else -> {}
+                }
+            }
+        }
+    }
 
     //야는 진짜 안됨.
     /*
@@ -63,22 +89,7 @@ class MainFragmentViewModel @Inject constructor(
             initialValue = ChampionsUiState.Loading,
         ) as StateFlow<ChampionsUiState> */
 
-
-    fun getChampions(){
-        viewModelScope.launch {
-            uiState.collect{ state->
-                when(state){
-                    is ChampionsUiState.Loading -> {  }
-                    is ChampionsUiState.Champions -> {
-                        Log.e("겟챰피온", "getChampions: ${state.champions}", )
-                    }
-                }
-            }
-        }
-    }
-
-
-//     ver 2. 성공
+    //     ver 2. 성공
     data class UiState(
         val isLoading: Boolean = false,
         val champions: List<DomainChampion> = emptyList(),
@@ -90,7 +101,7 @@ class MainFragmentViewModel @Inject constructor(
 
 //    val liveData: LiveData<UiState> = uiState.asLiveData()
 
-//    fun getChampions(){
+    //    fun getChampions(){
 //        getChampionUseCase().onEach { result ->
 //            _uiState.value = when(result){
 //                is Resource.Success -> {
